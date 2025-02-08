@@ -1,5 +1,6 @@
 # Ex.08 Design of Interactive Image Gallery
 ## Date:08.02.2025
+
 ## AIM:
 To design a web application for an inteactive image gallery with minimum five images.
 
@@ -25,126 +26,115 @@ Publish the website in the given URL.
 
 ## PROGRAM :
 ```
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Gallery</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Interactive Photo Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: pink;
+        }
+
+        h1 {
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s, width 0.3s, height 0.3s;
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.5);
+            width: 150px;
+            height: 150px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>Interactive Photo Gallery</h1>
+    <div class="gallery">
+        <img src="image1.jpg" alt="Image 1" class="thumbnail">
+        <img src="images2.jpg" alt="Image 2" class="thumbnail">
+        <img src="images3.jpg" alt="Image 3" class="thumbnail">
+        <img src="images4.jpg" alt="Image 4" class="thumbnail">
+        <img src="images5.jpg" alt="Image 5" class="thumbnail">
+        <img src="images6.jpg" alt="Image 6" class="thumbnail">
+        <img src="images7.jpg" alt="Image 7" class="thumbnail">
 
-    <main id="gallery">
-        <div class="gallery-container">
-            <img src="c:\Users\admin\Desktop\maha.jpg" alt="Image 1" >
-            <img src="c:\Users\admin\Desktop\beach s.jpg" alt="Image 2">
-            <img src="c:\Users\admin\Desktop\nyt s.jpg" alt="Image 3" >
-            <img src="c:\Users\admin\Desktop\flowers s.jpg" alt="Image 4" >
-            <img src="c:\Users\admin\Downloads\pool s.jpg" alt="Image 5" >
-            <img src="c:\Users\admin\Desktop\food.jpg" alt="Image 6" >
-            <img src="c:\Users\admin\Desktop\akki.jpg" alt="Image 7" >
-            <img src="c:\Users\admin\Desktop\tourist .jpg" alt="Image 8" >
-            <!-- Add more images as needed -->
-        </div>
-    </main>
-
+    </div>
+    <div class="overlay" id="overlay">
+        <img id="enlargedImage" src="" alt="Enlarged Image">
+    </div>
     <footer>
-        <p>&copy; 2024 Your Website</p>
+        Designed and developed by Rohini @ 2024
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const overlay = document.getElementById('overlay');
+            const enlargedImage = document.getElementById('enlargedImage');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', () => {
+                    enlargedImage.src = thumbnail.src;
+                    overlay.style.display = 'flex';
+                });
+            });
+
+            overlay.addEventListener('click', () => {
+                overlay.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
 ```
-## Models.py
-```
-class Image(models.Model):
-    title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images/')
-
-    def __str__(self):
-        return self.title
-```
-## settings.py
-```
-ALLOWED_HOSTS = ['*']
-```
-## styles.css
-```
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    padding: 20px;
-}
-
-.gallery-container img {
-    width: 80%;
-    height: 1000;
-    border-radius: 10px;
-}
-
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #f1f1f1;
-    margin-top: 20px;
-}
-```
-## Urls.py
-```
-from .views import gallery_view
-
-urlpatterns = [
-    path('', gallery_view, name='gallery'),
-]
-```
-##  Views.py
-```
-from .models import Image
-
-def gallery_view(request):
-    images = Image.objects.all()
-    return render(request, 'gallery/gallery.html', {'images': images})
-```
 ## OUTPUT:
-![image](https://github.com/user-attachments/assets/235d53b2-46a1-4226-8510-249bf0acdfca)
+![alt text](<rohini/iapp/static/Screenshot 2024-12-20 125125.png>)
+
 
 ## RESULT:
 The program for designing an interactive image gallery using HTML, CSS and JavaScript is executed successfully.
