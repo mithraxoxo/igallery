@@ -1,5 +1,5 @@
 # Ex.08 Design of Interactive Image Gallery
-## Date: 26.12.2024
+## Date:22.12.2024
 
 ## AIM:
 To design a web application for an inteactive image gallery with minimum five images.
@@ -31,161 +31,151 @@ Publish the website in the given URL.
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Harry Potter Gallery</title>
+    <title>Interactive Photo Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Albertus Medium', sans-serif;
             margin: 0;
-            background-color: black; /* Set background to black */
-            color: white; /* Set text color to white for visibility */
-        }
-
-        h1 {
-            font-family: 'Harrington', sans-serif;
-            font-size: 4rem;
-            text-align: center;
-            margin-top: 50px;
-            color: #f5a623; /* Harry Potter-themed golden color */
-        }
-
-        .gallery {
-            padding: 50px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: #cf749e;
+            color: #06e4e4;
         }
 
-        .thumbnail-container {
+        h1, h2 {
+            font-family: 'Albertus Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00d1e8;
+        }
+
+        h2 {
+            color: #00fffb;
+        }
+
+        .gallery {
             display: flex;
-            justify-content: center;
-            gap: 50px;
             flex-wrap: wrap;
+            gap: 15px;
+            max-width: 1200px;
+            padding: 10px;
+            justify-content: center;
         }
 
-        .thumbnail {
-            width: 300px;
-            height: 200px;
-            object-fit: cover;
+        .gallery-item {
             cursor: pointer;
+            text-align: center;
+            width: 200px;
+            margin: 10px;
+            border: 2px solid #101111;
+            border-radius: 10px;
+            overflow: hidden;
             transition: transform 0.3s;
         }
 
-        .thumbnail:hover {
-            transform: scale(1.1);
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
 
-        .lightbox {
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        
+        #modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            z-index: 1000;
         }
 
-        .lightbox-img {
-            max-width: 80%;
-            max-height: 80%;
-            margin: 20px 0;
-            border: 2px solid rgb(0, 0, 0);
-            box-shadow: 0 0 10px rgb(8, 44, 144);
+        #modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 2px solid #00eaff;
         }
 
-        .caption {
-            color: white;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .close {
+        #modal .close {
             position: absolute;
             top: 20px;
             right: 20px;
             font-size: 30px;
-            color: white;
+            color: #00ffff;
             cursor: pointer;
-        }
-
-        footer {
-          text-align: center;
-          padding: 5px;
-          background-color: #faf4c7;
-          color: rgb(0, 0, 0);
-          position: absolute;
-          bottom: 0;
-          width: 100%;
         }
     </style>
 </head>
 <body>
+    <h1>Interactive Photo Gallery</h1>
+    <h2>One Love</h2>
 
-    <h1>Harry Potter Movies</h1>
-    <hr>
-    
     <div class="gallery">
-        <div class="thumbnail-container">
-            <img src="hp1.jpg" class="thumbnail" alt="Harry Potter and the Philosopher's Stone">
-            <img src="hp2.jpg" class="thumbnail" alt="Harry Potter and the Chamber of Secrets">
-            <img src="hp3.jpg" class="thumbnail" alt="Harry Potter and the Prisoner of Azkaban">
-            <img src="hp4.jpg" class="thumbnail" alt="Harry Potter and the Goblet of Fire">
-            <img src="hp5.jpg" class="thumbnail" alt="Harry Potter and the Order of the Phoenix">
-            <img src="hp6.jpg" class="thumbnail" alt="Harry Potter and the Half Blood-Prince">
-            <img src="hp7.jpg" class="thumbnail" alt="Harry Potter and the Deathly Hallows Part 1">
-            <img src="hp8.jpg" class="thumbnail" alt="Harry Potter and the Deathly Hallows Part 2">
-        </div>
-
-        <div class="lightbox">
-            <span class="close">&times;</span>
-            <img class="lightbox-img" src="" alt="">
-            <div class="caption"></div>
-        </div>
+        <div class="gallery-item"><img src="11.jpg" alt=""></div>
+        <div class="gallery-item"><img src="22.jpg" alt=""></div>
+        <div class="gallery-item"><img src="33.jpg" alt=""></div>
+        <div class="gallery-item"><img src="44.jpg" alt=""></div>
+        <div class="gallery-item"><img src="55.jpg" alt=""></div>
+        <div class="gallery-item"><img src="66.jpg" alt=""></div>
+        <div class="gallery-item"><img src="77.jpg" alt=""></div>
+        <div class="gallery-item"><img src="88.jpg" alt=""></div>
     </div>
 
-    <script>
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        const lightbox = document.querySelector('.lightbox');
-        const lightboxImg = document.querySelector('.lightbox-img');
-        const caption = document.querySelector('.caption');
-        const closeBtn = document.querySelector('.close');
+    
+    <div id="modal">
+        <span class="close">&times;</span>
+        <img id="modal-img" src="" alt="Enlarged">
+    </div>
 
-        // Event listeners for thumbnails
-        thumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener('click', () => {
-                lightbox.style.display = 'flex';
-                lightboxImg.src = thumbnail.src;
-                caption.textContent = thumbnail.alt;
+    <footer>
+        &copy; 2024 designed by KomalavarshiniS(24900909). All Rights Reserved.
+    </footer>
+
+    <script>
+        
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.querySelector('.close');
+
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImg.src = item.src; 
             });
         });
 
-        // Close button functionality
-        closeBtn.addEventListener('click', () => {
-            lightbox.style.display = 'none';
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
         });
 
-        // Close lightbox on click outside image
-        lightbox.addEventListener('click', (e) => {
-            if (e.target !== lightboxImg) {
-                lightbox.style.display = 'none';
+        
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
             }
         });
     </script>
-
-    <footer>
-        <p>Designed by MERIL GOLDLINA A (24007299)</p>
-    </footer>
-    
 </body>
 </html>
-
 ```
 ## OUTPUT:
-![alt text](<Screenshot 2024-12-26 224401.png>)
-![alt text](<Screenshot 2024-12-26 224436.png>)
-![alt text](<Screenshot 2024-12-26 224453.png>)
+![alt text](<Screenshot (122).png>)
 
 ## RESULT:
 The program for designing an interactive image gallery using HTML, CSS and JavaScript is executed successfully.
